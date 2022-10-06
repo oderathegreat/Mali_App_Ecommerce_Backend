@@ -19,7 +19,7 @@ if (empty($password)) {
     $messages["password"] ="Invalid Password";
 }
 
-$password = md5($password);
+
 
 
 $checkUser="SELECT * FROM users WHERE email='$email'";
@@ -30,6 +30,7 @@ if(mysqli_num_rows($result)>0){
 
     $checkUserquery="SELECT id, username, email FROM users WHERE email='$email' and password='$password'";
     $resultant=mysqli_query($conn,$checkUserquery);
+
 
     if(mysqli_num_rows($resultant)>0){
 
@@ -42,6 +43,8 @@ if(mysqli_num_rows($result)>0){
         $response['user']=(object)[];
         $response['error']="400";
         $response['message']="Wrong credentials";
+
+
 
     }
 

@@ -3,6 +3,9 @@
 require 'config/config.php';
 header("Content-type: application/json");
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+
 $username=$_POST['username'];
 $phone=$_POST['phone'];
 $email=$_POST['email'];
@@ -50,12 +53,15 @@ if(mysqli_num_rows($checkQuery)>0){
 }
 else
 {
+
+    $data = json_decode(file_get_contents("php://input", true));
+
     $insertQuery="INSERT INTO users (username,phone,email,password) VALUES('$username','$phone','$email','$password')";
     $result=mysqli_query($conn,$insertQuery);
 
     if($result){
 
-        //$response['error']="200";
+        $response['ok']="200";
         $response['message']="New User Created!";
     }
     else
@@ -63,8 +69,6 @@ else
         $response['error']="400";
         $response['message']="Failed! to Create User";
     }
-
-
 
 }
 
