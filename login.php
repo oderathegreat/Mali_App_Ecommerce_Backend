@@ -36,15 +36,20 @@ $checkUser="SELECT * FROM users WHERE email='$email'";
 $result=mysqli_query($conn,$checkUser);
 
 if(mysqli_num_rows($result)>0){
+
     $data = json_decode(file_get_contents("php://input", true));
+
     $checkUserquery="SELECT id, username, email FROM users WHERE email='$email' and password='$password'";
     $resultant=mysqli_query($conn,$checkUserquery);
-
 
     if(mysqli_num_rows($resultant)>0){
 
         while($row=$resultant->fetch_assoc())
-            $response['user']=$row;
+
+
+            $response=$row;
+
+
             $response['true']="200";
             $response['message']="login success";
 
@@ -54,13 +59,13 @@ if(mysqli_num_rows($result)>0){
 
         $jwt = generate_jwt($headers, $payload);
 
-        echo json_encode(array('token' => $jwt));
+        echo json_encode(array('token' => $jwt, "user"=>$response));
     }
     else{
+
         $response['user']=(object)[];
         $response['error']="400";
         $response['message']="Wrong credentials";
-
 
 
     }
@@ -76,7 +81,7 @@ else{
 
 }
 
-echo json_encode($response);
+
 
 
 

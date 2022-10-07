@@ -12,6 +12,7 @@ $email=$_POST['email'];
 $password=$_POST['password'];
 
 $messages=[];
+
 if (empty($username) || strlen($username)<5){
     $messages["username"] ="Invalid username";
 }
